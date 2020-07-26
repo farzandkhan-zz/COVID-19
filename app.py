@@ -20,6 +20,10 @@ def load_state_data():
     return state_data
 state_data = load_state_data()
 
+st.button('Re-Run')
+if st.button == True:
+    st.write('Refreshing Data')
+    state_data = load_state_data()
 def homepage():
     import datetime
     now = datetime.datetime.now()
@@ -56,14 +60,12 @@ if not st.sidebar.checkbox('Hide Graphs', True):
         st.markdown('### Table depicting 10 States with maximum number of Confirmed Cases')
         top10 = state_data[['State', 'Confirmed', 'Recovered', 'Deaths', 'Active', 'Death Rate (%)']][1:11]
         st.write(top10)
-#
-# #st.map(data)
-#
-# st.sidebar.subheader('When and where are the users Tweeting from?')
-# #hour = st.sidebar.slider('Hour of day', 0, 23)
-# hour = st.sidebar.number_input('Hour of day', min_value=1, max_value=24)
-# modified_data = data[data['tweet_created'].dt.hour == hour]
-#
-# if not st.sidebar.checkbox('Close', True, key='1'):
-#     st.markdown('### Tweets location based on the time of day')
-#     st.markdown(f"{len(modified_data)} tweets between {hour} and {(hour+1)%24}")
+
+
+
+# input text box
+st.sidebar.subheader('State Data checker')
+state_name = st.sidebar.text_input('Enter your State name')
+if not st.sidebar.checkbox('Hide Table', False):
+    st.markdown(f'Showing data for {state_name}')
+    st.write(state_data[(state_data['State_code'] == state_name)][['State', 'Confirmed', 'Recovered', 'Deaths', 'Active']])

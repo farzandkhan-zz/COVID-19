@@ -64,8 +64,24 @@ if not st.sidebar.checkbox('Hide Graphs', True):
 
 
 # input text box
-st.sidebar.subheader('State Data checker')
-state_name = st.sidebar.text_input('Enter your State name')
+st.sidebar.subheader('State Data comparision')
+state = st.sidebar.text_input('Enter upto five State codes seprated by comma')
+state = state.split(', ')
+state
 if not st.sidebar.checkbox('Hide Table', False):
-    st.markdown(f'Showing data for {state_name}')
-    st.write(state_data[(state_data['State_code'] == state_name)][['State', 'Confirmed', 'Recovered', 'Deaths', 'Active']])
+    #st.markdown(f'Showing data for {state}')
+    st_len = len(state)
+    if st_len > 5:
+        st.write('Please enter no more than 5 State codes at once')
+    elif st_len == 5:
+        st.write(state_data[(state_data['State_code'] == state[0]) | (state_data['State_code'] == state[1]) | (state_data['State_code'] == state[2]) | (state_data['State_code'] == state[3]) | (state_data['State_code'] == state[4])][['State', 'Confirmed', 'Recovered', 'Deaths', 'Active']].reset_index(drop=True))
+    elif st_len == 4:
+        st.write(state_data[(state_data['State_code'] == state[0]) | (state_data['State_code'] == state[1]) | (state_data['State_code'] == state[2]) | (state_data['State_code'] == state[3])][['State', 'Confirmed', 'Recovered', 'Deaths', 'Active']].reset_index(drop=True))
+    elif st_len == 3:
+        st.write(state_data[(state_data['State_code'] == state[0]) | (state_data['State_code'] == state[1]) | (state_data['State_code'] == state[2])][['State', 'Confirmed', 'Recovered', 'Deaths', 'Active']].reset_index(drop=True))
+    elif st_len == 2:
+        st.write(state_data[(state_data['State_code'] == state[0]) | (state_data['State_code'] == state[1])][['State', 'Confirmed', 'Recovered', 'Deaths', 'Active']].reset_index(drop=True))
+    elif st_len == 1:
+        st.write(state_data[(state_data['State_code'] == state[0])][['State', 'Confirmed', 'Recovered', 'Deaths', 'Active']].reset_index(drop=True))
+    elif st_len == 0:
+        st.write('Please enter State code to enable Graph')
